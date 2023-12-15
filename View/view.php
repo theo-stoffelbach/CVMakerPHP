@@ -28,23 +28,23 @@ class PDF extends FPDF
         $this->SetFont('Arial','B',18);
         $this->Cell($w, 10, '{POST}', 0, 1, 'C',true  );
 
-        $this->Ln(15);
+        $this->Ln(20);
     }
-
 
     function TitreChapitre($libelle)
     {
 
         $text = iconv('UTF-8', 'windows-1252', "$libelle");
-        
-        $textWidth = $this->GetStringWidth($text);
-        $textHeight = $this->FontSize;
 
         $x = $this->GetX();
         $y = $this->GetY();
 
         // Obti ens la largeur et la hauteur du texte
         $this->SetFont('Arial', 'B', 18);
+
+        $textWidth = $this->GetStringWidth($text);
+        $textHeight = $this->FontSize;
+
 
         // Dessine le texte
         $this->Cell($textWidth, $textHeight,$text, 0, 1, 'L',FALSE);
@@ -55,32 +55,34 @@ class PDF extends FPDF
         $this->Line($x, $y + $textHeight, $x + $textWidth, $y + $textHeight);
     }
 
-    function AddDesc($libelle)
+    function AddDesc($description)
     {
 
-        $text = iconv('UTF-8', 'windows-1252', "$libelle");
+        $text = iconv('UTF-8', 'windows-1252', "$description");
         
         $textWidth = $this->GetStringWidth($text);
+        $pageWidth = $this->GetPageWidth();
+
         $textHeight = $this->FontSize;
 
         $this->SetFont('Arial', '', 14);
 
+        $this->Cell($pageWidth, $textHeight, $text, 0, 1, 'L',FALSE);
 
-        $x = $this->GetX();
-        $y = $this->GetY();
-        // Obti ens la largeur et la hauteur du texte
+        $this->Ln(4); // Saut de ligne
+        }
 
-        // Dessine le texte
-        $this->Cell($textWidth, $textHeight,$text, 0, 0, 'L',FALSE);
+        function SetTitleCV($title) 
+        {
+            $titles = iconv('UTF-8', 'windows-1252', "$title");
+        }
+    
 
-    }
-
-    function AjouterChapitre($titre)
+    function AjouterChapitre($titre,$desc)
     {
         $this->TitreChapitre($titre);
-        $this->AddDesc("fgfjdngjfdngjfdngjnbgfj");
+        $this->AddDesc($desc);
     }
-
 
 }
 
@@ -88,9 +90,11 @@ $pdf = new PDF();
 $pdf->AddPage();
 
 $titre = 'Théo Stoffelbach';
-$pdf->SetTitle($titre);
-$pdf->SetAuthor('Jules Verne');
-$pdf->AjouterChapitre('Compétences');
-// $pdf->AjouterChapitre(2,'LE POUR ET LE CONTRE','20k_c2.txt');
+$pdf->SetTitleCV("{Name}");
+$pdf->AjouterChapitre('Compétences',"desc1");
+$pdf->AjouterChapitre('Compétences',"desc1 BLA BLA BLA");
+$pdf->AjouterChapitre('GROS TEST DE MERDE',"desc1 BLA BLA BLA");
+
+
 $pdf->Output();
 ?>
