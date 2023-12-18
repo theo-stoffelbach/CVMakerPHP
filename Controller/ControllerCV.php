@@ -1,7 +1,8 @@
 <?php
+include('../View/view.php');
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-
+    
     // echo 
     // '<script>
     // alert("Vous avez oublier : ' . 
@@ -10,51 +11,57 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // </script>';
 
     // print("Lastname: $lastname\n");
-    }
+    CreateCV();
+}
 
-    function CreateCV() {
-        if (VerifArgUser()) return;
+function CreateCV() {
+    if (VerifArgUser()) return;
 
-        $valuesUser = AssignValue(); 
+    $valuesUser = AssignValue(); 
 
-                
+    print_r($valuesUser);
 
-    }
+    CreateViewOfCV($valuesUser);
+}
 
-    function AssignValue() {
-        $associativeArray = [
-            'lastname' => $_POST['lastname'],
-            'firstname' => $_POST['firstname'],
-            'email' => $_POST['email'],
-            'phone' => $_POST['phone'],
-            // 'experience' => $experience,
-            // 'school' => $school,
-            // 'hobbies' => $hobbies
-        ];
-        
-        print_r($associativeArray);
-        return $associativeArray;
-    }
+function AssignValue() {
+    $associativeArray = [
+        'lastname' => $_POST['lastname'],
+        'firstname' => $_POST['firstname'],
+        'email' => $_POST['email'],
+        'phone' => $_POST['phone'],
 
-    function VerifArgUser() : bool {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $error = [];
-            print($_POST['lastname']. ' <br/> ');
+        'experience' => $_POST['experience'],
+        'school' => $_POST['school'],
+        'hobbies' =>  $_POST['hobbies']
+    ];
+    return $associativeArray;
+}
 
-            if ($_POST['lastname'] == "") $error['lastname'] = "error";  
-            if ($_POST['firstname'] == "") $error['firstname'] = "error";  
-            if ($_POST['email'] == "") $error['email'] = "error";  
-            if ($_POST['phone'] == "") $error['phone'] = "error";  
+function VerifArgUser() : bool {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $error = [];
+        print($_POST['lastname']. ' <br/> ');
 
-            if (Count($error) != 0) {
-                print("errors : ");
-                print_r($error);
-                return true;
-            }
-            return false;
+        if ($_POST['lastname'] == "") $error['lastname'] = "error";  
+        if ($_POST['firstname'] == "") $error['firstname'] = "error";  
+        if ($_POST['email'] == "") $error['email'] = "error";  
+        if ($_POST['phone'] == "") $error['phone'] = "error";  
+
+        if ($_POST['firstname'] == "") $_POST['experience'];
+        if ($_POST['email'] == "") $_POST['school'];
+        if ($_POST['phone'] == "") $_POST['hobbies'];
+
+        if (Count($error) != 0) {
+            print("errors : ");
+            print_r($error);
+            return true;
         }
-        return true;
+        return false;
     }
+    return true;
 
-    FunctionName();
+}
+
+
 ?>

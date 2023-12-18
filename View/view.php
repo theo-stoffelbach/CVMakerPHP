@@ -1,9 +1,9 @@
 <?php
-
 require('../fpdf186/fpdf.php');
+
 class PDF extends FPDF
 {
-    function Header()
+    function HeaderCV($name,$post)
     {
         global $titre;
         $titre = iconv('UTF-8', 'windows-1252', "{Name}");
@@ -22,11 +22,12 @@ class PDF extends FPDF
         $this->SetTextColor(240,240,240);
         $this->SetLineWidth(0);
 
-        $this->Cell($w, 25, '{Name}', 0, 1, 'C',true);
+        $this->Cell($w, 25, $name, 0, 1, 'C',true);
         $this->SetX(0);
         
         $this->SetFont('Arial','B',18);
-        $this->Cell($w, 10, '{POST}', 0, 1, 'C',true  );
+
+        $this->Cell($w, 10, $post, 0, 1, 'C',true  );
 
         $this->Ln(20);
     }
@@ -41,6 +42,7 @@ class PDF extends FPDF
 
         // Obti ens la largeur et la hauteur du texte
         $this->SetFont('Arial', 'B', 18);
+        $this->SetTextColor(20,20,20);
 
         $textWidth = $this->GetStringWidth($text);
         $textHeight = $this->FontSize;
@@ -66,10 +68,9 @@ class PDF extends FPDF
         $textHeight = $this->FontSize;
 
         $this->SetFont('Arial', '', 14);
+        $this->SetTextColor(20,20,20);
 
         $this->Cell($pageWidth, $textHeight, $text, 0, 1, 'L',FALSE);
-
-        $this->Ln(4); // Saut de ligne
         }
 
         function SetTitleCV($title) 
@@ -78,23 +79,37 @@ class PDF extends FPDF
         }
     
 
-    function AjouterChapitre($titre,$desc)
+    function AjouterChapitre($title, ...$args)
     {
-        $this->TitreChapitre($titre);
-        $this->AddDesc($desc);
+        $this->TitreChapitre($title);
+
+        foreach($args as $desc) {
+            $this->AddDesc($desc);
+        }
+
+        $this->Ln(10); // Saut de ligne
     }
+}
+
+function CreateViewOfCV($valuesUser) {
+
+    ob_start();
+    $pdf = new PDF();
+    $pdf->AddPage();    
+
+    // $titre = 'Théo Stoffelbach';
+    
+    $pdf->HeaderCV($valuesUser['firstname'] . ' '. $valuesUser['lastname'],$valuesUser['phone']);
+    $pdf->AjouterChapitre('Information', "téléphone : " . $valuesUser['phone'], "email : " . $valuesUser['email'], "test", "rerefdsfds" . "rfefdsfsd");
+    
+    $pdf->AjouterChapitre('Expérience professionnel : ', $valuesUser['experience']);
+    $pdf->AjouterChapitre('Parcours académique : ',$valuesUser['school']);
+    
+    
+    $pdf->Output();
+    ob_end_flush(); 
 
 }
 
-$pdf = new PDF();
-$pdf->AddPage();
 
-$titre = 'Théo Stoffelbach';
-$pdf->SetTitleCV("{Name}");
-$pdf->AjouterChapitre('Compétences',"desc1");
-$pdf->AjouterChapitre('Compétences',"desc1 BLA BLA BLA");
-$pdf->AjouterChapitre('GROS TEST DE MERDE',"desc1 BLA BLA BLA");
-
-
-$pdf->Output();
 ?>
