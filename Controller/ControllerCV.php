@@ -1,8 +1,8 @@
 <?php
 include('../View/view.php');
+include('../Controller/Convertisor.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    
     // echo 
     // '<script>
     // alert("Vous avez oublier : ' . 
@@ -11,15 +11,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // </script>';
 
     // print("Lastname: $lastname\n");
+
+
+
+
     CreateCV();
 }
 
 function CreateCV() {
+    include('../Model/CVModel.php');
+
     if (VerifArgUser()) return;
 
-    $valuesUser = AssignValue(); 
 
+    $valuesUser = AssignValue(); 
     print_r($valuesUser);
+
+    $cvModel = new CVModel();
+    $cvModel->addCV("cv",$valuesUser);
 
     CreateViewOfCV($valuesUser);
 }
@@ -48,7 +57,7 @@ function VerifArgUser() : bool {
         if ($_POST['email'] == "") $error['email'] = "error";  
         if ($_POST['phone'] == "") $error['phone'] = "error";  
 
-        if ($_POST['firstname'] == "") $_POST['experience'];
+        if ($_POST['firstname'] == "") $_POST['experience'];    
         if ($_POST['email'] == "") $_POST['school'];
         if ($_POST['phone'] == "") $_POST['hobbies'];
 
