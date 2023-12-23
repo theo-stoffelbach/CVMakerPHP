@@ -1,13 +1,13 @@
 <?php
 require('../fpdf186/fpdf.php');
-
+require('../Model/modelConnexionDB.php');
 
 class PDF extends FPDF
 {
     function HeaderCV($name,$post)
     {
         global $titre;
-        $titre = iconv('UTF-8', 'windows-1252', "{Name}");
+        $name = iconv('UTF-8', 'windows-1252', $name);
 
         // Arial gras 15
         $this->SetFont('Arial','',32);
@@ -100,17 +100,34 @@ function CreateViewOfCV($valuesUser) {
 
     // $titre = 'Théo Stoffelbach';
     
-    $pdf->HeaderCV($valuesUser['firstname'] . ' '. $valuesUser['lastname'],$valuesUser['phone']);
-    $pdf->AjouterChapitre('Information', "téléphone : " . $valuesUser['phone'], "email : " . $valuesUser['email'], "test", "rerefdsfds" . "rfefdsfsd");
+    $pdf->HeaderCV($valuesUser['firstname'] . ' '. $valuesUser['lastname'],$valuesUser['job']);
+    $pdf->AjouterChapitre('Information', "téléphone : " . $valuesUser['phone'], "email : " . $valuesUser['email']);
     
     $pdf->AjouterChapitre('Expérience professionnel : ', $valuesUser['experience']);
     $pdf->AjouterChapitre('Parcours académique : ',$valuesUser['school']);
-    
+    $pdf->AjouterChapitre('Hobbies : ',$valuesUser['hobbies']);
+
     
     $pdf->Output();
     ob_end_flush(); 
-
 }
+
+if (isset($_GET['Id']) && !empty($_GET['Id'])) {
+    $db = DatabaseConnection::getInstance()->getConnection();
+    $id = $_GET['Id'];
+
+    $stmt = $db->prepare('SELECT * FROM cv WHERE id = :id');
+    $stmt->execute(['id' => $id]);
+    
+    $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$data) {
+        exit;
+    }
+
+    CreateViewOfCV($data);
+}
+
 
 
 ?>

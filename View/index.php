@@ -32,7 +32,7 @@ require '../Controller/GetDataForForm.php'; // for get data and put in the form
         <label for="email">Email:</label> <input type="text" name="email" value="<?php echo $data['email'] ?? ''; ?>"><br>
         <label for="phone">numéro de téléphone:</label>  <input type="text" name="phone" value="<?php echo $data['phone'] ?? ''; ?>"><br>
 
-        <label for="jobs">Intitulé du post :</label>  <input type="text" name="jobs" value=""><br>
+        <label for="job">Intitulé du post :</label>  <input type="text" name="job" value="<?php echo $data['job'] ?? ''; ?>"><br>
         <label for="experience">Expérience professionnel : </label> <textarea name="experience" id="experience" cols="30" rows="10"><?php echo $data['experience'] ?? ''; ?></textarea><br>
         <label for="school">Parcours académique : </label> <textarea name="school" id="school" cols="30" rows="10" ><?php echo $data['school'] ?? ''; ?></textarea><br>
         <label for="hobbies">Hobbies :</label> <textarea name="hobbies" id="Hobbies" cols="30" rows="10" ><?php echo $data['hobbies'] ?? ''; ?></textarea><br>

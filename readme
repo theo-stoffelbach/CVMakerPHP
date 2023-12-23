@@ -1,0 +1,9 @@
+# CV Générator PHP
+
+## Description
+
+Permet de générer a partir de la template un cv adapter
+
+## Installation
+
+Merci de mettre dans .env vos informations personelle pour la bdd Mysql Normalement la table CV se crera dans cette bdd et permettera d'utiliser le plein potentiel du générateur.

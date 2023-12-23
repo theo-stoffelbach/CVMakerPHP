@@ -14,7 +14,7 @@ class CVModel {
             $columns .= "{$field} VARCHAR(255), ";
         }
         $columns = rtrim($columns, ', ');
-        
+
 
         $stmt = $db->prepare("CREATE TABLE IF NOT EXISTS {$tableName} ({$columns})");
 
@@ -38,6 +38,8 @@ class CVModel {
         $sql = "INSERT INTO {$tableName} ({$columns}) VALUES ({$namedParameters})";
         $stmt = $db->prepare($sql);
         $stmt->execute($data);
+
+        return $db->lastInsertId();
     }
 
 

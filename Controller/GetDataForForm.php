@@ -11,10 +11,8 @@ if (isset($_GET['Id']) && !empty($_GET['Id'])) {
 
     if (!$data) {
         echo "<script>
-        alert('L\'ID $id n\'existe pas');
-        window.location.href = 'index.php';
+            alert('L\'ID $id n\'existe pas');
         </script>";
-        exit;
     }
 }
 
