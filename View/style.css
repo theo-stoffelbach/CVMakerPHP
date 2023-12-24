@@ -1,0 +1,105 @@
+/* Reset CSS et styles de base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #272727; /* Fond noir */
+    overflow-x: hidden;
+}
+
+h1 {
+    /* color: #fff;
+    text-align: center;
+    padding-top: 50px;
+    z-index: 2; S'assurer que le formulaire est au-dessus du fond */
+
+    color: #fff;
+    text-align: center;
+    padding-top: 50px;
+    position: relative;
+    z-index: 2; /* S'assurer que le formulaire est au-dessus du fond */
+
+
+}
+
+form {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    width: 60%;
+    margin: 40px auto;
+    border-radius: 10px;
+    position: relative;
+    z-index: 2; /* S'assurer que le formulaire est au-dessus du fond */
+}
+
+
+form label {
+    margin-top: 10px;
+    display: block;
+    font-weight: bold;
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+input[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: #333;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #555;
+}
+
+/* Styles des inputs et des textarea omis pour la brièveté */
+
+/* Animation de fond */
+@keyframes moveUp {
+    0% {
+        bottom: -100px;
+        border-radius: 0;
+        color: rgb(96, 255, 52);
+    }
+    50% {
+        border-radius: 50%;
+    }
+    100% {
+        color: rgb(52, 52, 255);
+    }
+}
+
+/* Pseudo-éléments pour les blocs animés */
+body::before,
+body::after {
+    content: '';
+    position: fixed;
+    left: 50%;
+    bottom: -100px;
+    width: 100px;
+    height: 100px;
+    background: #32CD32; /* Vert clair */
+    z-index: 1;
+    animation: moveUp 5s linear infinite;
+}
+
+body::after {
+    left: 30%;
+    animation-delay: 2.5s; /* Délai pour le second bloc */
+}
